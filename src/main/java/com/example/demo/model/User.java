@@ -1,8 +1,15 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
+
+@Entity   //
+@Table(name = "users")
 public class User {
 
+    @Id   // primary key ahe
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
     private String password;
 

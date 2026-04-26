@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface VitalsRepository extends JpaRepository<Vitals, Long> {
     List<Vitals> findByPatientIdOrderByRecordedAtDesc(Long patientId);
+    Vitals findTopByPatientIdOrderByRecordedAtDesc(Long patientId);
 }

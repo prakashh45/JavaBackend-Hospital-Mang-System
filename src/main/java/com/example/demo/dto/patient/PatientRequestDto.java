@@ -45,4 +45,13 @@ public class PatientRequestDto {
 
     @Size(max = 500, message = "Address can be at most 500 characters")
     private String address;
+
+    @Size(max = 30, message = "Status can be at most 30 characters")
+    private String status;
+
+    @Size(max = 40, message = "Ward id can be at most 40 characters")
+    private String wardId;
+
+    @Size(max = 20, message = "Priority can be at most 20 characters")
+    private String priority;
 }

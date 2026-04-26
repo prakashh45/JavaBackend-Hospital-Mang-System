@@ -35,6 +35,7 @@ public class PrescriptionService {
                 .prescribedDate(requestDto.getPrescribedDate())
                 .instructions(requestDto.getInstructions().trim())
                 .doctorName(requestDto.getDoctorName().trim())
+                .status(normalize(requestDto.getStatus(), "ACTIVE"))
                 .medicines(new ArrayList<>())
                 .build();
 
@@ -56,6 +57,25 @@ public class PrescriptionService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<PrescriptionResponseDto> getPrescriptions(Long patientId, String status) {
+        List<Prescription> data;
+        boolean hasPatient = patientId != null;
+        boolean hasStatus = status != null && !status.isBlank();
+
+        if (hasPatient && hasStatus) {
+            data = prescriptionRepository.findByPatientIdAndStatusIgnoreCaseOrderByPrescribedDateDesc(patientId, status);
+        } else if (hasPatient) {
+            data = prescriptionRepository.findByPatientIdOrderByPrescribedDateDesc(patientId);
+        } else if (hasStatus) {
+            data = prescriptionRepository.findByStatusIgnoreCaseOrderByPrescribedDateDesc(status);
+        } else {
+            data = prescriptionRepository.findAllByOrderByPrescribedDateDesc();
+        }
+
+        return data.stream().map(PrescriptionService::toResponse).toList();
+    }
+
     public PrescriptionResponseDto updatePrescription(Long prescriptionId, PrescriptionRequestDto requestDto) {
         Prescription prescription = fetchPrescriptionOrThrow(prescriptionId);
         Patient patient = patientService.fetchPatientOrThrow(requestDto.getPatientId());
@@ -64,10 +84,17 @@ public class PrescriptionService {
         prescription.setPrescribedDate(requestDto.getPrescribedDate());
         prescription.setInstructions(requestDto.getInstructions().trim());
         prescription.setDoctorName(requestDto.getDoctorName().trim());
+        prescription.setStatus(normalize(requestDto.getStatus(), prescription.getStatus()));
 
         prescription.getMedicines().clear();
         applyMedicines(prescription, requestDto.getMedicines());
 
+        return toResponse(prescriptionRepository.save(prescription));
+    }
+
+    public PrescriptionResponseDto updateStatus(Long prescriptionId, String status) {
+        Prescription prescription = fetchPrescriptionOrThrow(prescriptionId);
+        prescription.setStatus(normalize(status, prescription.getStatus()));
         return toResponse(prescriptionRepository.save(prescription));
     }
 
@@ -102,6 +129,7 @@ public class PrescriptionService {
                 .prescribedDate(prescription.getPrescribedDate())
                 .instructions(prescription.getInstructions())
                 .doctorName(prescription.getDoctorName())
+                .status(prescription.getStatus())
                 .createdAt(prescription.getCreatedAt())
                 .updatedAt(prescription.getUpdatedAt())
                 .medicines(prescription.getMedicines().stream()
@@ -114,5 +142,12 @@ public class PrescriptionService {
                                 .build())
                         .toList())
                 .build();
+    }
+
+    private String normalize(String value, String fallback) {
+        if (value == null || value.isBlank()) {
+            return fallback;
+        }
+        return value.trim().toUpperCase();
     }
 }

@@ -21,4 +21,6 @@ public class DiagnosisResponseDto {
     private String conditionName;
     private String notes;
     private String doctorName;
+    private String priority;
+    private String status;
 }

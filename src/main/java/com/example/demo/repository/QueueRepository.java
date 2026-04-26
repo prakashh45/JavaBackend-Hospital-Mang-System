@@ -8,4 +8,5 @@ import java.util.List;
 public interface QueueRepository extends JpaRepository<Queue, Long> {
     List<Queue> findAllByOrderByQueuedAtAsc();
     List<Queue> findByPatientIdOrderByQueuedAtDesc(Long patientId);
+    long countByStatusIgnoreCase(String status);
 }

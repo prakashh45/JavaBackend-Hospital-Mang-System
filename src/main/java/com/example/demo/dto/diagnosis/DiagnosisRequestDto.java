@@ -34,4 +34,10 @@ public class DiagnosisRequestDto {
     @NotBlank(message = "Doctor name is required")
     @Size(max = 120, message = "Doctor name can be at most 120 characters")
     private String doctorName;
+
+    @Size(max = 20, message = "Priority can be at most 20 characters")
+    private String priority;
+
+    @Size(max = 20, message = "Status can be at most 20 characters")
+    private String status;
 }

@@ -1,21 +1,13 @@
 package com.example.demo.dto.patient;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PatientResponseDto {
-    private Long id;
+public class PatientPatchRequestDto {
     private String firstName;
     private String lastName;
     private String gender;
@@ -26,6 +18,4 @@ public class PatientResponseDto {
     private String status;
     private String wardId;
     private String priority;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

@@ -22,6 +22,7 @@ public class PrescriptionResponseDto {
     private LocalDate prescribedDate;
     private String instructions;
     private String doctorName;
+    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<MedicineResponseDto> medicines;

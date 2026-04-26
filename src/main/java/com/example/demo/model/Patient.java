@@ -54,6 +54,15 @@ public class Patient {
     @Column(length = 500)
     private String address;
 
+    @Column(length = 30)
+    private String status;
+
+    @Column(length = 40)
+    private String wardId;
+
+    @Column(length = 20)
+    private String priority;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -81,6 +90,12 @@ public class Patient {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.updatedAt = now;
+        if (status == null || status.isBlank()) {
+            status = "ACTIVE";
+        }
+        if (priority == null || priority.isBlank()) {
+            priority = "NORMAL";
+        }
     }
 
     @PreUpdate

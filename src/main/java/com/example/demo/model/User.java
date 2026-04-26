@@ -12,7 +12,10 @@ public class User {
 
     private String username;
     private String password;
+    @Column(unique = true)
+    private String email;
     private String role;
+    private String provider;
 
     public User() {
     }
@@ -55,10 +58,29 @@ public class User {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
     @PrePersist
     public void setDefaultRole() {
         if (role == null || role.isBlank()) {
             role = "PATIENT";
+        }
+        if (provider == null || provider.isBlank()) {
+            provider = "LOCAL";
         }
     }
 }

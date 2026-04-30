@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.patient.PatientResponseDto;
+import com.example.demo.model.QueueStatus;
 import com.example.demo.repository.DiagnosisRepository;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.PrescriptionRepository;
@@ -41,8 +42,8 @@ public class DoctorDashboardService {
         Map<String, Object> response = new HashMap<>();
 
         long totalPatients = patientRepository.count();
-        long waitingQueue = queueRepository.countByStatusIgnoreCase("WAITING");
-        long inProgressQueue = queueRepository.countByStatusIgnoreCase("IN_PROGRESS");
+        long waitingQueue = queueRepository.countByStatus(QueueStatus.WAITING);
+        long inProgressQueue = queueRepository.countByStatus(QueueStatus.IN_PROGRESS);
         long activePrescriptions = prescriptionRepository.findByStatusIgnoreCaseOrderByPrescribedDateDesc("ACTIVE").size();
         long openDiagnoses = diagnosisRepository.findByStatusIgnoreCaseOrderByDiagnosisDateDesc("OPEN").size();
 

@@ -70,7 +70,6 @@ public class BillingService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
     public List<InsuranceProvider> insuranceProviders() {
         List<InsuranceProvider> existing = insuranceProviderRepository.findAll();
         if (existing.isEmpty()) {

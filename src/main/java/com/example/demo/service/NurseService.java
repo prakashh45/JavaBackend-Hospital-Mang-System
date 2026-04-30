@@ -4,6 +4,7 @@ import com.example.demo.dto.nurse.NurseNoteRequest;
 import com.example.demo.dto.patient.PatientResponseDto;
 import com.example.demo.model.NurseNote;
 import com.example.demo.model.Patient;
+import com.example.demo.model.QueueStatus;
 import com.example.demo.repository.NurseNoteRepository;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.QueueRepository;
@@ -43,7 +44,7 @@ public class NurseService {
     public Map<String, Object> dashboard() {
         long totalPatients = patientRepository.count();
         long criticalCount = patientRepository.findByPriorityOrderByUpdatedAtDesc("CRITICAL").size();
-        long pendingQueue = queueRepository.countByStatusIgnoreCase("WAITING");
+        long pendingQueue = queueRepository.countByStatus(QueueStatus.WAITING);
         long vitalsRecords = vitalsRepository.count();
 
         Map<String, Object> response = new HashMap<>();

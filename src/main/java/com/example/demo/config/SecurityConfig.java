@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.security    .AppUserDetailsService;
+import com.example.demo.security.AppUserDetailsService;
 import com.example.demo.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +44,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler)
@@ -127,14 +128,10 @@ public class SecurityConfig {
     }
 
     private static String toJsonArray(List<String> values) {
-        if (values == null || values.isEmpty()) {
-            return "[]";
-        }
+        if (values == null || values.isEmpty()) return "[]";
         StringBuilder builder = new StringBuilder("[");
         for (int i = 0; i < values.size(); i++) {
-            if (i > 0) {
-                builder.append(",");
-            }
+            if (i > 0) builder.append(",");
             builder.append("\"").append(jsonEscape(values.get(i))).append("\"");
         }
         builder.append("]");
@@ -142,9 +139,7 @@ public class SecurityConfig {
     }
 
     private static String jsonEscape(String value) {
-        if (value == null) {
-            return "";
-        }
+        if (value == null) return "";
         return value.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 }

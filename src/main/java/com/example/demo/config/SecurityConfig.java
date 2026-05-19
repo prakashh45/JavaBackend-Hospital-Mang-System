@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
                                 "/auth/login",
-                                "/auth/register",
+                                "/auth/register",    // ← is this exactly matching your endpoint?
                                 "/auth/google",
                                 "/auth/apple",
                                 "/auth/check-email",
